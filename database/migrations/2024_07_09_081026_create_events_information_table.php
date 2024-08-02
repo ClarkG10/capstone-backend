@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('event_location');
             $table->date('start_date');
             $table->date('end_date');
+            $table->string('time_start');
+            $table->string('time_end');
             $table->string('description');
             $table->string('gender');
             $table->string('weight');
@@ -24,7 +26,6 @@ return new class extends Migration
             $table->string('max_age');
             $table->string('contact_info');
             $table->string('status');
-            $table->string('additional_description');
             $table->timestamps();
         });
 

@@ -14,8 +14,9 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        return Inventory::where('user_id', $request->user()->id)
-            ->get();
+        $inventory = Inventory::where('user_id', $request->user()->id)->paginate(8);
+
+        return $inventory;
     }
 
     /**
