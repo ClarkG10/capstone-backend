@@ -41,16 +41,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(EventController::class)->group(function () {
         Route::get('/event',                        'index');
+        Route::get('/event/export',                 'report');
         Route::get('/event/{id}',                   'show');
         Route::post('/event',                       'store')->name('event.store');
         Route::put('/event/{id}',                   'update');
-        Route::put('/event/eventInfo',              'updateEvent')->name('event.update');
+        Route::put('/event/eventInfo/{id}',         'updateEvent')->name('event.update');
         Route::put('/event/status/{id}',            'updateStatus')->name('event.status');
         Route::delete('/event/{id}',                'destroy');
     });
 
     Route::controller(InventoryController::class)->group(function () {
         Route::get('/inventory',                        'index');
+        Route::get('/inventory/export',                 'report');
         Route::get('/inventory/{id}',                   'show');
         Route::post('/inventory',                       'store')->name('inventory.store');
         Route::put('/inventory/{id}',                   'update');
@@ -68,9 +70,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(RequestController::class)->group(function () {
         Route::get('/bloodrequest',                   'index');
+        Route::get('/bloodrequest/export',            'report');
         Route::get('/bloodrequest/{id}',              'show');
         Route::post('/bloodrequest',                  'store')->name('request.store');
-        Route::put('/bloodrequest/{id}',              'updateStatus')->name('request.update');
+        Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('request.update');
         Route::delete('/bloodrequest/{id}',           'destroy');
     });
 });

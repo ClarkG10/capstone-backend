@@ -27,6 +27,8 @@ class EventRequest extends FormRequest
                 'event_location' => 'required|string|max:255',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
+                'time_start' => 'required|string',
+                'time_end' => 'required|string',
                 'description' => 'required|string',
                 'gender' => 'required|string|max:255',
                 'weight' => 'string|max:255|nullable',
@@ -39,17 +41,19 @@ class EventRequest extends FormRequest
             ];
         } else if (request()->routeIs('event.update')) {
             return [
-                'event_name' => 'required|string|max:255',
-                'event_location' => 'required|string|max:255',
-                'start_date' => 'required|date',
-                'end_date' => 'required|date',
-                'description' => 'required|string',
-                'gender' => 'required|string|max:255',
+                'event_name' => 'string|max:255',
+                'event_location' => 'string|max:255',
+                'start_date' => 'date',
+                'end_date' => 'date',
+                'time_start' => 'string',
+                'time_end' => 'string',
+                'description' => 'string',
+                'gender' => 'string|max:255',
                 'weight' => 'string|max:255|nullable',
-                'min_age' => 'integer|required',
-                'max_age' => 'integer|nullable',
-                'contact_info' => 'required|string|max:255',
-                'additional_description' => 'string|nullable',
+                'min_age' => 'integer',
+                'max_age' => 'integer',
+                'contact_info' => 'string|max:255',
+                'participants' => 'integer',
             ];
         } else if (request()->routeIs('event.status')) {
             return [

@@ -12,12 +12,20 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Organization::all();
+        $organization = Organization::all();
+
+        if ($request->keyword) {
+            $organization->where(function ($query) use ($request) {
+                $query->where('org_name', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        return $organization;
     }
 
-    /**
+    /** 
      * Store a newly created resource in storage.
      */
     public function store(OrganizationRequest $request)

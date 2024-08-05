@@ -14,8 +14,26 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        return BloodRequest::where('user_id', $request->user()->id)
-            ->get();
+        $bloodRequest = BloodRequest::where('user_id', $request->user()->id);
+
+        if ($request->keyword) {
+            $bloodRequest->where(function ($query) use ($request) {
+                $query->where('blood_type', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('component', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('quantity', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        return $bloodRequest->paginate(5);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        return BloodRequest::where('user_id', $request->user()->id)->get();
     }
 
     /**

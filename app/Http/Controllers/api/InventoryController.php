@@ -20,6 +20,15 @@ class InventoryController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        return Inventory::where('user_id', $request->user()->id)->get();
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(InventoryRequest $request)

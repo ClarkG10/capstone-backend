@@ -14,8 +14,30 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        return Event::where('user_id', $request->user()->id)
-            ->get();
+        $event = Event::where('user_id', $request->user()->id);
+
+        if ($request->keyword) {
+            $event->where(function ($query) use ($request) {
+                $query->where('event_name', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('event_location', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('gender', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('description', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        return $event->paginate(5);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        // Fetch all events for the current user
+        $events = Event::where('user_id', $request->user()->id)->get();
+
+        // Optionally, handle CSV export here or in a separate method
+        return response()->json($events);
     }
 
     /**
@@ -68,13 +90,14 @@ class EventController extends Controller
         $event->event_location =  $validated['event_location'];
         $event->start_date =  $validated['start_date'];
         $event->end_date =  $validated['end_date'];
+        $event->time_start =  $validated['time_start'];
+        $event->time_end =  $validated['time_end'];
         $event->description =  $validated['description'];
         $event->gender =  $validated['gender'];
         $event->weight =  $validated['weight'];
         $event->min_age =  $validated['min_age'];
         $event->max_age =  $validated['max_age'];
         $event->contact_info =  $validated['contact_info'];
-        $event->additional_description =  $validated['additional_description'];
 
         $event->save();
 

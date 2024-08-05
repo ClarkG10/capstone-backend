@@ -22,10 +22,11 @@ return new class extends Migration
             $table->string('description');
             $table->string('gender');
             $table->string('weight');
-            $table->string('min_age');
-            $table->string('max_age');
+            $table->integer('min_age');
+            $table->integer('max_age');
             $table->string('contact_info');
             $table->string('status');
+            $table->integer('participants');
             $table->timestamps();
         });
 
