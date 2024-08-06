@@ -11,7 +11,26 @@ class DonorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
+    {
+        $donor = Donor::where('user_id', $request->user()->id);
+
+        if ($request->keyword) {
+            $donor->where(function ($query) use ($request) {
+                $query->where('fullname', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('address', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('gender', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('blood_type', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        return $donor->paginate(6);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function donorIndex()
     {
         return Donor::all();
     }
@@ -35,14 +54,6 @@ class DonorController extends Controller
         $donor = Donor::create($validated);
 
         return $donor;
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Donor::FindorFail($id);
     }
 
     /**

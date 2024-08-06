@@ -25,13 +25,12 @@ use App\Http\Requests\StaffRequest;
 */
 
 // Ian nara imong API endpoint
-Route::get('/event',                   'index');
-Route::get('/inventory',               'index');
-Route::get('/organization',            'index');
-Route::get('/donor',                   'index');
+Route::get('/event',                   'eventIndex');
+Route::get('/inventory',               'inventoryIndex');
+Route::get('/organization',            'organizationIndex');
+Route::get('/donor',                   'donorIndex');
 Route::post('/donor',                  'store')->name('donor.store');
 Route::put('/donor/status/{id}',       'update')->name('donor.update');
-Route::delete('/donor/{id}',           'destroy');
 // 
 
 Route::get('/user', [UserController::class, 'index']);
@@ -93,8 +92,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/donor',                   'index');
         Route::get('/donor/export',            'report');
         Route::get('/donor/{id}',              'show');
-        Route::post('/donor',                  'store')->name('donor.store');
-        Route::put('/donor/status/{id}',       'update')->name('donor.update');
         Route::delete('/donor/{id}',           'destroy');
     });
 

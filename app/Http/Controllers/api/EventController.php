@@ -39,6 +39,14 @@ class EventController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function eventIndex()
+    {
+        return Event::all();
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(EventRequest $request)

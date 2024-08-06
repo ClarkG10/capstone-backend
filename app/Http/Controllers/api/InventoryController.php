@@ -27,6 +27,13 @@ class InventoryController extends Controller
         return Inventory::where('user_id', $request->user()->id)->get();
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function inventoryIndex()
+    {
+        return Inventory::all();
+    }
 
     /**
      * Store a newly created resource in storage.

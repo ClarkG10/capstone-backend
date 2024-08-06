@@ -18,6 +18,14 @@ class OrganizationController extends Controller
             ->get();
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function organizationIndex()
+    {
+        return Organization::all();
+    }
+
     /** 
      * Store a newly created resource in storage.
      */
