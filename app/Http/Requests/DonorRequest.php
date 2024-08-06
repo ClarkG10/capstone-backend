@@ -25,8 +25,9 @@ class DonorRequest extends FormRequest
             return [
                 'fullname' => 'required|string|max:255',
                 'birthday' => 'required|date|max:255',
-                'gender' => 'required|date',
-                'address' => 'required|string',
+                'address' => 'required|date',
+                'gender' => 'required|string',
+                'age' => 'required|integer',
                 'email' => 'required|string|email',
                 'phonenumber' => 'required|string',
                 'blood_type' => 'required|string',
@@ -41,20 +42,21 @@ class DonorRequest extends FormRequest
             ];
         } else if (request()->routeIs('donor.update')) {
             return [
-                'fullname' => 'required|string|max:255',
-                'birthday' => 'required|date|max:255',
-                'gender' => 'required|date',
-                'address' => 'required|string',
-                'email' => 'required|string|email',
-                'phonenumber' => 'required|string',
-                'blood_type' => 'required|string',
-                'medical_history' => 'nullable|string|max:255',
-                'current_medications' => 'string|max:255|nullable',
-                'previous_donation' => 'required|string|nullable',
+                'fullname' => 'string|max:255',
+                'birthday' => 'date|max:255',
+                'address' => 'date',
+                'gender' => 'string',
+                'age' => 'integer',
+                'email' => 'string|email',
+                'phonenumber' => 'string',
+                'blood_type' => 'string',
+                'medical_history' => 'string|max:255',
+                'current_medications' => 'string|nullable',
+                'previous_donation' => 'string|nullable',
                 'allergies' => 'string|nullable',
-                'emergency_name' => 'required|string|max:255',
-                'emergency_relationship' => 'required|string|max:255',
-                'emergency_phonenumber' => 'required|integer|min:8',
+                'emergency_name' => 'string|max:255',
+                'emergency_relationship' => 'string|max:255',
+                'emergency_phonenumber' => 'integer|min:8',
             ];
         }
     }

@@ -70,6 +70,7 @@ class DonorController extends Controller
         $donor->birthday =  $validated['birthday'];
         $donor->gender =  $validated['gender'];
         $donor->address =  $validated['address'];
+        $donor->age =  $validated['age'];
         $donor->email =  $validated['email'];
         $donor->phonenumber =  $validated['phonenumber'];
         $donor->blood_type =  $validated['blood_type'];
