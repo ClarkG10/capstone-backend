@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class StaffRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,24 +21,24 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->routeIs('user.login')) {
+        if (request()->routeIs('staff.store')) {
             return [
-                'email' => 'required|string|email|max:255',
-                'password' => 'required|min:8',
-            ];
-        } else if (request()->routeIs('user.store')) {
-            return [
-                'email' => 'required|string|email|unique:App\Models\User,email|max:255',
+                'fullname' => 'required|string|max:255',
+                'email' => 'required|string|email|unique:App\Models\Staff,email|max:255',
                 'password' => 'required|min:8|confirmed',
                 'role' => 'required|string',
+                'phonenumber' => 'required|integer',
+                'address' => 'required|string',
+                'status' => 'required|string',
+                'user_id' => 'required|integer',
             ];
-        } else if (request()->routeIs('user.email')) {
+        } else if (request()->routeIs('role.update')) {
             return [
-                'email' => 'required|string|email|max:255',
+                'role' => 'string',
             ];
-        } else if (request()->routeIs('user.password')) {
+        } else if (request()->routeIs('status.update')) {
             return [
-                'password' => 'required|confirmed|min:8',
+                'status' => 'string',
             ];
         }
     }

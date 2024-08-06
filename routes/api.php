@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Requests\DonorRequest;
+use App\Http\Requests\StaffRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,16 @@ use App\Http\Controllers\Api\UserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// Ian nara imong API endpoint
+Route::get('/event',                   'index');
+Route::get('/inventory',               'index');
+Route::get('/organization',            'index');
+Route::get('/donor',                   'index');
+Route::post('/donor',                  'store')->name('donor.store');
+Route::put('/donor/status/{id}',       'update')->name('donor.update');
+Route::delete('/donor/{id}',           'destroy');
+// 
 
 Route::get('/user', [UserController::class, 'index']);
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
@@ -75,5 +87,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/bloodrequest',                  'store')->name('request.store');
         Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('request.update');
         Route::delete('/bloodrequest/{id}',           'destroy');
+    });
+
+    Route::controller(DonorRequest::class)->group(function () {
+        Route::get('/donor',                   'index');
+        Route::get('/donor/export',            'report');
+        Route::get('/donor/{id}',              'show');
+        Route::post('/donor',                  'store')->name('donor.store');
+        Route::put('/donor/status/{id}',       'update')->name('donor.update');
+        Route::delete('/donor/{id}',           'destroy');
+    });
+
+    Route::controller(StaffRequest::class)->group(function () {
+        Route::get('/staff',                   'index');
+        Route::get('/staff/{id}',              'show');
+        Route::post('/staff',                  'store')->name('staff.store');
+        Route::put('/staff/role/{id}',         'updateRole')->name('role.update');
+        Route::put('/staff/status/{id}',       'updateStatus')->name('status.update');
+        Route::delete('/bloodrequest/{id}',    'destroy');
     });
 });

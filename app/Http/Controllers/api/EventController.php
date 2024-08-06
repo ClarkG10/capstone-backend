@@ -33,10 +33,8 @@ class EventController extends Controller
      */
     public function report(Request $request)
     {
-        // Fetch all events for the current user
         $events = Event::where('user_id', $request->user()->id)->get();
 
-        // Optionally, handle CSV export here or in a separate method
         return response()->json($events);
     }
 

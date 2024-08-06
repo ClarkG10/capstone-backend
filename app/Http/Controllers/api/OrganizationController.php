@@ -14,15 +14,8 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        $organization = Organization::all();
-
-        if ($request->keyword) {
-            $organization->where(function ($query) use ($request) {
-                $query->where('org_name', 'like', '%' . $request->keyword . '%');
-            });
-        }
-
-        return $organization;
+        return Organization::where('user_id', $request->user()->id)
+            ->get();
     }
 
     /** 

@@ -33,7 +33,6 @@ class RequestBloodRequest extends FormRequest
         } else if (request()->routeIs('request.update')) {
             return [
                 'status' => 'string',
-                'message' => 'string',
             ];
         }
     }

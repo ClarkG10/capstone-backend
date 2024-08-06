@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('max_age');
             $table->string('contact_info');
             $table->string('status');
-            $table->integer('participants');
+            $table->integer('participants')->default("0");
             $table->timestamps();
         });
 
