@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\api\DonorController;
 use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\api\StaffController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
@@ -25,12 +26,12 @@ use App\Http\Requests\StaffRequest;
 */
 
 // Ian nara imong API endpoint
-Route::get('/event',                   'eventIndex');
-Route::get('/inventory',               'inventoryIndex');
-Route::get('/organization',            'organizationIndex');
-Route::get('/donor',                   'donorIndex');
-Route::post('/donor',                  'store')->name('donor.store');
-Route::put('/donor/status/{id}',       'update')->name('donor.update');
+Route::get('/event', [EventController::class,                    'eventIndex']);
+Route::get('/inventory', [InventoryController::class,            'inventoryIndex']);
+Route::get('/organization', [OrganizationController::class,      'organizationIndex']);
+Route::get('/donor', [DonorController::class,                    'donorIndex']);
+Route::post('/donor', [DonorController::class,                   'store'])->name('donor.store');
+Route::put('/donor/status/{id}', [DonorController::class,        'update'])->name('donor.update');
 // 
 
 Route::get('/user', [UserController::class, 'index']);
@@ -88,14 +89,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/bloodrequest/{id}',           'destroy');
     });
 
-    Route::controller(DonorRequest::class)->group(function () {
+    Route::controller(DonorController::class)->group(function () {
         Route::get('/donor',                   'index');
         Route::get('/donor/export',            'report');
         Route::get('/donor/{id}',              'show');
         Route::delete('/donor/{id}',           'destroy');
     });
 
-    Route::controller(StaffRequest::class)->group(function () {
+    Route::controller(StaffController::class)->group(function () {
         Route::get('/staff',                   'index');
         Route::get('/staff/{id}',              'show');
         Route::post('/staff',                  'store')->name('staff.store');
