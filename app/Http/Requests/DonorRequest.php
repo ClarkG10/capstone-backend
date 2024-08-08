@@ -25,7 +25,7 @@ class DonorRequest extends FormRequest
             return [
                 'fullname' => 'required|string|max:255',
                 'birthday' => 'required|date|max:255',
-                'address' => 'required|date',
+                'address' => 'required|string',
                 'gender' => 'required|string',
                 'age' => 'required|integer',
                 'email' => 'required|string|email',
@@ -44,7 +44,7 @@ class DonorRequest extends FormRequest
             return [
                 'fullname' => 'string|max:255',
                 'birthday' => 'date|max:255',
-                'address' => 'date',
+                'address' => 'string',
                 'gender' => 'string',
                 'age' => 'integer',
                 'email' => 'string|email',
