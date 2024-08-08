@@ -57,7 +57,7 @@ class DonorController extends Controller
     }
 
     /**
-     * Update the role specified resource in storage.
+     * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
@@ -86,6 +86,24 @@ class DonorController extends Controller
 
         return $donor;
     }
+
+    /**
+     * Update the status of the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $donor = Donor::findOrFail($id);
+
+        // Retrieve the validated input data...
+        $validated = $request->validated();
+
+        $donor->status =  $validated['status'];
+
+        $donor->save();
+
+        return $donor;
+    }
+
 
     /**
      * Remove the specified resource from storage.

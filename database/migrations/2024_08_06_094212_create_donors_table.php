@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('emergency_name');
             $table->string('emergency_relationship');
             $table->integer('emergency_phonenumber');
+            $table->string('status')->default('Active');
             $table->timestamps();
         });
 

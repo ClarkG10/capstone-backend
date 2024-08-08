@@ -31,7 +31,8 @@ Route::get('/inventory', [InventoryController::class,            'inventoryIndex
 Route::get('/organization', [OrganizationController::class,      'organizationIndex']);
 Route::get('/donor', [DonorController::class,                    'donorIndex']);
 Route::post('/donor', [DonorController::class,                   'store'])->name('donor.store');
-Route::put('/donor/status/{id}', [DonorController::class,        'update'])->name('donor.update');
+Route::put('/donor/{id}', [DonorController::class,        'update'])->name('donor.update');
+Route::put('/donor/status/{id}', [DonorController::class,        'updateStatus'])->name('status.update');
 // 
 
 Route::get('/user', [UserController::class, 'index']);

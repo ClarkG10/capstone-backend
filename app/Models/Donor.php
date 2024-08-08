@@ -28,7 +28,7 @@ class Donor extends Model
      *
      * @var array
      */
-    protected $fillable = ['fullname', 'birthday', 'gender', 'age', 'address', 'email', 'phonenumber', 'blood_type', 'medical_history', 'current_medications', 'allergies', 'previous_donation', 'emergency_name', 'emergenncy_relationship', 'emergenncy_phonenumber'];
+    protected $fillable = ['fullname', 'birthday', 'gender', 'age', 'address', 'email', 'phonenumber', 'blood_type', 'medical_history', 'current_medications', 'allergies', 'previous_donation', 'emergency_name', 'emergenncy_relationship', 'emergenncy_phonenumber', 'status'];
 
     /**
      * The attributes that aren't mass assignable.

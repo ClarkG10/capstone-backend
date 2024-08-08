@@ -58,6 +58,10 @@ class DonorRequest extends FormRequest
                 'emergency_relationship' => 'string|max:255',
                 'emergency_phonenumber' => 'integer|min:8',
             ];
+        } else if (request()->routeIs('status.update')) {
+            return [
+                'status' => 'string',
+            ];
         }
     }
 }
