@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Staff as AuthStaff;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Staff extends Model
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The table associated with the model.
@@ -29,6 +32,16 @@ class Staff extends Model
      * @var array
      */
     protected $fillable = ['fullname', 'email', 'password', 'role', 'phonenumber', 'address', 'status', 'user_id'];
+
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+    ];
 
     /**
      * The attributes that aren't mass assignable.

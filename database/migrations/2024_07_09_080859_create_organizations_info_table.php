@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('country');
             $table->string('city');
-            $table->string('Address');
+            $table->string('address');
             $table->string('zipcode');
             $table->string('operating_hour');
             $table->string('contact_info');

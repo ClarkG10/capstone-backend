@@ -40,6 +40,10 @@ class UserRequest extends FormRequest
             return [
                 'password' => 'required|confirmed|min:8',
             ];
+        } else if (request()->routeIs('role.update')) {
+            return [
+                'role' => 'string',
+            ];
         }
     }
 }

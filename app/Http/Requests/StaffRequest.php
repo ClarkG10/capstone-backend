@@ -29,16 +29,11 @@ class StaffRequest extends FormRequest
                 'role' => 'required|string',
                 'phonenumber' => 'required|integer',
                 'address' => 'required|string',
-                'status' => 'required|string',
                 'user_id' => 'required|integer',
             ];
         } else if (request()->routeIs('role.update')) {
             return [
                 'role' => 'string',
-            ];
-        } else if (request()->routeIs('status.update')) {
-            return [
-                'status' => 'string',
             ];
         }
     }

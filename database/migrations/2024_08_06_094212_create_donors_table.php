@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('email');
             $table->integer('phonenumber');
             $table->string('blood_type');
-            $table->text('medical_history');
-            $table->text('current_medications');
-            $table->text('allergies');
+            $table->text('medical_history')->nullable();
+            $table->text('current_medications')->nullable();
+            $table->text('allergies')->nullable();
             $table->text('previous_donation');
             $table->string('emergency_name');
             $table->string('emergency_relationship');

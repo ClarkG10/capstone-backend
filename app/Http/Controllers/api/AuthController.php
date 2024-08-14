@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StaffRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\Staff;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -19,37 +18,28 @@ class AuthController extends Controller
     public function login(UserRequest $request)
     {
         $user = User::where('email', $request->email)->first();
+        $staff = Staff::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        if ($user && Hash::check($request->password, $user->password)) {
+            return $this->createTokenResponse($user, 'user');
         }
 
-        $response = [
-            'user'  => $user,
-            'token' => $user->createToken($request->email)->plainTextToken
-        ];
+        if ($staff && Hash::check($request->password, $staff->password)) {
+            return $this->createTokenResponse($staff, 'staff');
+        }
 
-        return $response;
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
     }
 
-    public function loginStaff(StaffRequest $request)
+    protected function createTokenResponse($user, $type)
     {
-        $user = Staff::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        $response = [
+        return response()->json([
             'user'  => $user,
-            'token' => $user->createToken($request->email)->plainTextToken
-        ];
-
-        return $response;
+            'token' => $user->createToken($user->email)->plainTextToken,
+            'type'  => $type,
+        ]);
     }
 
     /**

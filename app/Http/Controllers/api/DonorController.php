@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DonorRequest;
 use App\Models\Donor;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,7 @@ class DonorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DonorRequest $request)
     {
         // Retrieve the validated input data...
         $validated = $request->validated();
@@ -59,7 +60,7 @@ class DonorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DonorRequest $request, string $id)
     {
         $donor = Donor::findOrFail($id);
 
@@ -90,7 +91,7 @@ class DonorController extends Controller
     /**
      * Update the status of the specified resource in storage.
      */
-    public function updateStatus(Request $request, string $id)
+    public function updateStatus(DonorRequest $request, string $id)
     {
         $donor = Donor::findOrFail($id);
 

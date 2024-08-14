@@ -28,7 +28,7 @@ class DonorRequest extends FormRequest
                 'address' => 'required|string',
                 'gender' => 'required|string',
                 'age' => 'required|integer',
-                'email' => 'required|string|email',
+                'email' => 'required|string',
                 'phonenumber' => 'required|string',
                 'blood_type' => 'required|string',
                 'medical_history' => 'nullable|string|max:255',
@@ -37,8 +37,9 @@ class DonorRequest extends FormRequest
                 'allergies' => 'string|nullable',
                 'emergency_name' => 'required|string|max:255',
                 'emergency_relationship' => 'required|string|max:255',
-                'emergency_phonenumber' => 'required|integer|min:8',
+                'emergency_phonenumber' => 'required|integer',
                 'user_id' => 'required|integer',
+                'status' => 'string|nullable',
             ];
         } else if (request()->routeIs('donor.update')) {
             return [

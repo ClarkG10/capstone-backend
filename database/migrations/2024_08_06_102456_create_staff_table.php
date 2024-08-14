@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('role');
             $table->string('phonenumber');
             $table->text('address');
-            $table->string('status')->default('active');
             $table->timestamps();
         });
 

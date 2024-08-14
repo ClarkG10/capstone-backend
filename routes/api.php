@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\api\DonorController;
@@ -11,8 +10,7 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Requests\DonorRequest;
-use App\Http\Requests\StaffRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +24,12 @@ use App\Http\Requests\StaffRequest;
 */
 
 // Ian nara imong API endpoint
-Route::get('/event', [EventController::class,                    'eventIndex']);
-Route::get('/inventory', [InventoryController::class,            'inventoryIndex']);
-Route::get('/organization', [OrganizationController::class,      'organizationIndex']);
-Route::get('/donor', [DonorController::class,                    'donorIndex']);
+Route::get('/mobile/event', [EventController::class,                    'eventIndex']);
+Route::get('/mobile/inventory', [InventoryController::class,            'inventoryIndex']);
+Route::get('/mobile/organization', [OrganizationController::class,      'organizationIndex']);
+Route::get('/mobile/donor', [DonorController::class,                    'donorIndex']);
 Route::post('/donor', [DonorController::class,                   'store'])->name('donor.store');
-Route::put('/donor/{id}', [DonorController::class,        'update'])->name('donor.update');
+Route::put('/donor/{id}', [DonorController::class,               'update'])->name('donor.update');
 Route::put('/donor/status/{id}', [DonorController::class,        'updateStatus'])->name('status.update');
 // 
 
@@ -54,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(EventController::class)->group(function () {
         Route::get('/event',                        'index');
-        Route::get('/event/export',                 'report');
+        Route::get('/event/all',                    'report');
         Route::get('/event/{id}',                   'show');
         Route::post('/event',                       'store')->name('event.store');
         Route::put('/event/{id}',                   'update');
@@ -65,7 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(InventoryController::class)->group(function () {
         Route::get('/inventory',                        'index');
-        Route::get('/inventory/export',                 'report');
+        Route::get('/inventory/all',                    'report');
         Route::get('/inventory/{id}',                   'show');
         Route::post('/inventory',                       'store')->name('inventory.store');
         Route::put('/inventory/{id}',                   'update');
@@ -83,7 +81,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(RequestController::class)->group(function () {
         Route::get('/bloodrequest',                   'index');
-        Route::get('/bloodrequest/export',            'report');
+        Route::get('/bloodrequest/all',               'report');
         Route::get('/bloodrequest/{id}',              'show');
         Route::post('/bloodrequest',                  'store')->name('request.store');
         Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('request.update');
@@ -99,10 +97,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(StaffController::class)->group(function () {
         Route::get('/staff',                   'index');
+        Route::get('/staff/all',               'indexAll');
         Route::get('/staff/{id}',              'show');
         Route::post('/staff',                  'store')->name('staff.store');
         Route::put('/staff/role/{id}',         'updateRole')->name('role.update');
-        Route::put('/staff/status/{id}',       'updateStatus')->name('status.update');
-        Route::delete('/bloodrequest/{id}',    'destroy');
+        Route::delete('/staff/{id}',           'destroy');
+        Route::get('/staff/profile',           'showProfile');
     });
 });

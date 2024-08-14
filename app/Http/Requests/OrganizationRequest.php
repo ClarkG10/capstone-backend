@@ -50,7 +50,6 @@ class OrganizationRequest extends FormRequest
                 'zipcode' => 'integer|required',
                 'operating_hour' => 'required|string|max:255',
                 'contact_info' => 'string|required',
-
             ];
         }
     }
