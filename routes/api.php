@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RequestController;
+use App\Http\Controllers\api\StockInController;
+use App\Http\Controllers\api\StockOutController;
 use App\Http\Controllers\Api\UserController;
 
 
@@ -28,9 +30,9 @@ Route::get('/mobile/event', [EventController::class,                    'eventIn
 Route::get('/mobile/inventory', [InventoryController::class,            'inventoryIndex']);
 Route::get('/mobile/organization', [OrganizationController::class,      'organizationIndex']);
 Route::get('/mobile/donor', [DonorController::class,                    'donorIndex']);
-Route::post('/donor', [DonorController::class,                   'store'])->name('donor.store');
-Route::put('/donor/{id}', [DonorController::class,               'update'])->name('donor.update');
-Route::put('/donor/status/{id}', [DonorController::class,        'updateStatus'])->name('status.update');
+Route::post('/donor', [DonorController::class,                          'store'])->name('donor.store');
+Route::put('/donor/{id}', [DonorController::class,                      'update'])->name('donor.update');
+Route::put('/donor/status/{id}', [DonorController::class,               'updateStatus'])->name('status.update');
 // 
 
 Route::get('/user', [UserController::class, 'index']);
@@ -84,13 +86,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/bloodrequest/all',               'report');
         Route::get('/bloodrequest/{id}',              'show');
         Route::post('/bloodrequest',                  'store')->name('request.store');
-        Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('request.update');
+        Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('status.update');
+        Route::put('/bloodrequest/{id}',              'update')->name('request.update');
         Route::delete('/bloodrequest/{id}',           'destroy');
     });
 
     Route::controller(DonorController::class)->group(function () {
         Route::get('/donor',                   'index');
-        Route::get('/donor/export',            'report');
+        Route::get('/donor/all',               'report');
         Route::get('/donor/{id}',              'show');
         Route::delete('/donor/{id}',           'destroy');
     });
@@ -103,5 +106,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/staff/role/{id}',         'updateRole')->name('role.update');
         Route::delete('/staff/{id}',           'destroy');
         Route::get('/staff/profile',           'showProfile');
+    });
+
+    Route::controller(StockInController::class)->group(function () {
+        Route::get('/stockIn',                   'index');
+        Route::post('/stockIn',                  'store')->name('stockIn.store');
+        Route::delete('/stockIn/{id}',           'destroy');
+    });
+
+    Route::controller(StockOutController::class)->group(function () {
+        Route::get('/stockOut',                   'index');
+        Route::post('/stockOut',                  'store')->name('stockOut.store');
+        Route::delete('/stockOut/{id}',           'destroy');
     });
 });

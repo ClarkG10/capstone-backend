@@ -11,24 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
-            $table->id('request_id');
+        Schema::create('stock_in', function (Blueprint $table) {
+            $table->id('stockIn_id');
             $table->string('blood_type');
+            $table->string('rh_factor');
             $table->string('component');
-            $table->string('urgency_scale');
-            $table->integer('quantity');
-            $table->string('status');
+            $table->integer('units_in');
             $table->timestamps();
         });
 
-        Schema::table('requests', function (Blueprint $table) {
+        Schema::table('stock_in', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
 
-        Schema::table('requests', function (Blueprint $table) {
-            $table->unsignedBigInteger('receiver_id')->nullable();
-            $table->foreign('receiver_id')->references('org_id')->on('organizations_info');
+        Schema::table('stock_in', function (Blueprint $table) {
+            $table->unsignedBigInteger('inventory_id')->nullable();
+            $table->foreign('inventory_id')->references('inventory_id')->on('inventory');
         });
     }
 
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('stock_in');
     }
 };

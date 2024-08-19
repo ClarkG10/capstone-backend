@@ -104,6 +104,7 @@ class EventController extends Controller
         $event->min_age =  $validated['min_age'];
         $event->max_age =  $validated['max_age'];
         $event->contact_info =  $validated['contact_info'];
+        $event->participants =  $validated['participants'];
 
         $event->save();
 

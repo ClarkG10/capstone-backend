@@ -33,8 +33,21 @@ class RequestController extends Controller
      */
     public function report(Request $request)
     {
-        return BloodRequest::where('user_id', $request->user()->id)->get();
+        $query = BloodRequest::query();
+
+        if ($request->keyword) {
+            $query->where(function ($query) use ($request) {
+                $query->where('blood_type', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('component', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('quantity', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        $bloodRequests = $query->get();
+
+        return $bloodRequests;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -57,6 +70,25 @@ class RequestController extends Controller
         return BloodRequest::findOrFail($id);
     }
 
+    /**
+     * Update the event of the specified resource in storage.
+     */
+    public function update(RequestBloodRequest $request, string $id)
+    {
+        $bloodRequest = BloodRequest::findOrFail($id);
+
+        // Retrieve the validated input data...
+        $validated = $request->validated();
+
+        $bloodRequest->blood_type =  $validated['blood_type'];
+        $bloodRequest->component =  $validated['component'];
+        $bloodRequest->urgency_scale =  $validated['urgency_scale'];
+        $bloodRequest->quantity =  $validated['quantity'];
+
+        $bloodRequest->save();
+
+        return $bloodRequest;
+    }
 
     /**
      * Update the status of the specified resource in storage.

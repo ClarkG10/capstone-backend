@@ -25,7 +25,18 @@ class StaffController extends Controller
      */
     public function indexAll(Request $request)
     {
-        return Staff::all();
+        $query = Staff::query();
+
+        if ($request->keyword) {
+            $query->where(function ($query) use ($request) {
+                $query->where('fullname', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('email', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        $staff = $query->get();
+
+        return $staff;
     }
 
 

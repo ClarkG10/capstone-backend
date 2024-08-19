@@ -29,8 +29,16 @@ class RequestBloodRequest extends FormRequest
                 'quantity' => 'required|integer',
                 'status' => 'required|string|max:255',
                 'user_id' => 'required|integer',
+                'receiver_id' => 'required|integer',
             ];
         } else if (request()->routeIs('request.update')) {
+            return [
+                'blood_type' => 'string|max:255',
+                'component' => 'string|max:255',
+                'urgency_scale' => 'string|max:255',
+                'quantity' => 'integer',
+            ];
+        } else if (request()->routeIs('status.update')) {
             return [
                 'status' => 'string',
             ];
