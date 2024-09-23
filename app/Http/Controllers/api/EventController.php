@@ -14,7 +14,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $event = Event::where('user_id', $request->user()->id);
+        $event = Event::where('user_id', $request->user()->id)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $event->where(function ($query) use ($request) {
@@ -25,7 +25,7 @@ class EventController extends Controller
             });
         }
 
-        return $event->paginate(5);
+        return $event->paginate(6);
     }
 
     /**

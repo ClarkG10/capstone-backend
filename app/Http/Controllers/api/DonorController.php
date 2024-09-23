@@ -14,7 +14,7 @@ class DonorController extends Controller
      */
     public function index(Request $request)
     {
-        $donor = Donor::where('user_id', $request->user()->id);
+        $donor = Donor::where('user_id', $request->user()->id)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $donor->where(function ($query) use ($request) {

@@ -14,7 +14,7 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        $bloodRequest = BloodRequest::where('user_id', $request->user()->id);
+        $bloodRequest = BloodRequest::where('user_id', $request->user()->id)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $bloodRequest->where(function ($query) use ($request) {
@@ -33,7 +33,7 @@ class RequestController extends Controller
      */
     public function report(Request $request)
     {
-        $query = BloodRequest::query();
+        $query = BloodRequest::query()->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $query->where(function ($query) use ($request) {
