@@ -28,7 +28,7 @@ class Organization extends Model
      *
      * @var array
      */
-    protected $fillable = ['org_name', 'org_type', 'org_email', 'description', 'country', 'city', 'address', 'zipcode', 'operating_hour', 'contact_info', 'latitude', 'longitude', 'info_complete', 'user_id'];
+    protected $fillable = ['org_name', 'org_type', 'org_email', 'description', 'country', 'city', 'address', 'zipcode', 'operating_hour', 'contact_info', 'image', 'user_id'];
 
     /**
      * The attributes that aren't mass assignable.

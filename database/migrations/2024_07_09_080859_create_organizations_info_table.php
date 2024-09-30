@@ -23,9 +23,7 @@ return new class extends Migration
             $table->string('zipcode');
             $table->string('operating_hour');
             $table->string('contact_info');
-            $table->string('latitude');
-            $table->string('longitude');
-            $table->string('info_complete')->nullable();
+            $table->string('image');
             $table->timestamps();
         });
 

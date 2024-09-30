@@ -24,7 +24,7 @@ class StaffRequest extends FormRequest
         if (request()->routeIs('staff.store')) {
             return [
                 'fullname' => 'required|string|max:255',
-                'email' => 'required|string|email|unique:App\Models\Staff,email|max:255',
+                'email' => 'required|string|email|unique:App\Models\Staff,email|max:255|unique:App\Models\User,email',
                 'password' => 'required|min:8|confirmed',
                 'role' => 'required|string',
                 'phonenumber' => 'required|integer',

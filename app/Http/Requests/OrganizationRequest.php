@@ -32,24 +32,21 @@ class OrganizationRequest extends FormRequest
                 'address' => 'string|required',
                 'zipcode' => 'integer|required',
                 'operating_hour' => 'required|string|max:255',
-                'latitude' => 'string|nullable',
-                'longitude' => 'string|nullable',
                 'contact_info' => 'string|required',
                 'user_id' => 'required|integer',
-                'info_complete' => 'string|nullable',
             ];
         } else if (request()->routeIs('organization.update')) {
             return [
-                'org_name' => 'required|string|max:255',
-                'org_type' => 'required|string|max:255',
-                'org_email' => 'required|string',
-                'description' => 'required|string',
-                'country' => 'required|string|max:255',
-                'city' => 'string|max:255|required',
-                'address' => 'integer|required',
-                'zipcode' => 'integer|required',
-                'operating_hour' => 'required|string|max:255',
-                'contact_info' => 'string|required',
+                'org_name' => 'string|max:255|nullable',
+                'org_email' => 'string|nullable',
+                'description' => 'string|nullable',
+                'country' => 'string|max:255|nullable',
+                'city' => 'string|max:255|nullable',
+                'address' => 'string|nullable',
+                'zipcode' => 'integer|nullable',
+                'operating_hour' => 'string|max:255|nullable',
+                'contact_info' => 'string|nullable',
+                'image' => 'string|max:255|nullable',
             ];
         }
     }

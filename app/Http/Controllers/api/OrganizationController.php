@@ -57,9 +57,8 @@ class OrganizationController extends Controller
 
         // Retrieve the validated input data...
         $validated = $request->validated();
-
+        $organization->image =  $validated['image'];
         $organization->org_name =  $validated['org_name'];
-        $organization->org_type =  $validated['org_type'];
         $organization->org_email =  $validated['org_email'];
         $organization->description =  $validated['description'];
         $organization->country =  $validated['country'];
