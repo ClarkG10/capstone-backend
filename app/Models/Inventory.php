@@ -30,6 +30,18 @@ class Inventory extends Model
      */
     protected $fillable = ['blood_type', 'rh_factor', 'component', 'avail_blood_units', 'user_id'];
 
+    // Define relationship to stock_in table
+    public function stockIn()
+    {
+        return $this->hasMany(StockIn::class, 'inventory_id');
+    }
+
+    // Define relationship to stock_out table
+    public function stockOut()
+    {
+        return $this->hasMany(StockOut::class, 'inventory_id');
+    }
+
     /**
      * The attributes that aren't mass assignable.
      *

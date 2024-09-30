@@ -93,8 +93,15 @@ class InventoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $inventory = Inventory::FindOrFail($id);
+        $inventory = Inventory::findOrFail($id);
+
+        // Delete related stock_in and stock_out records
+        $inventory->stockIn()->delete();
+        $inventory->stockOut()->delete();
+
+        // Delete the inventory record
         $inventory->delete();
-        return $inventory;
+
+        return response()->json(['message' => 'Inventory and related records deleted successfully']);
     }
 }

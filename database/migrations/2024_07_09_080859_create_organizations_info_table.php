@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('zipcode');
             $table->string('operating_hour');
             $table->string('contact_info');
-            $table->string('image');
+            $table->text('image')->nullable();
             $table->timestamps();
         });
 

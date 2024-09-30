@@ -46,7 +46,7 @@ class OrganizationRequest extends FormRequest
                 'zipcode' => 'integer|nullable',
                 'operating_hour' => 'string|max:255|nullable',
                 'contact_info' => 'string|nullable',
-                'image' => 'string|max:255|nullable',
+                'image' => 'image|mimes:jpg,gif,png|max:5120',
             ];
         }
     }

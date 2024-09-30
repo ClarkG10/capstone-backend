@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('time_start');
             $table->string('time_end');
-            $table->string('description');
+            $table->text('description');
             $table->string('gender');
             $table->string('weight');
             $table->integer('min_age');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('contact_info');
             $table->string('status');
             $table->integer('participants')->default("0");
+            $table->text('image')->nullable();
             $table->timestamps();
         });
 

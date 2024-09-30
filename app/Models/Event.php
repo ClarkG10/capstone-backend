@@ -28,7 +28,7 @@ class Event extends Model
      *
      * @var array
      */
-    protected $fillable = ['event_name', 'event_location', 'start_date', 'end_date', 'time_start', 'time_end', 'description',  'gender', 'weight', 'min_age', 'max_age', 'contact_info', 'participants', 'status', 'user_id'];
+    protected $fillable = ['event_name', 'event_location', 'start_date', 'end_date', 'time_start', 'time_end', 'description',  'gender', 'weight', 'min_age', 'max_age', 'contact_info', 'participants', 'status', 'image', 'user_id'];
 
     /**
      * The attributes that aren't mass assignable.

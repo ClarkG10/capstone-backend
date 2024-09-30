@@ -54,6 +54,7 @@ class EventRequest extends FormRequest
                 'max_age' => 'integer',
                 'contact_info' => 'string|max:255',
                 'participants' => 'integer',
+                'image' => 'image|mimes:jpg,gif,png|max:5120',
             ];
         } else if (request()->routeIs('event.status')) {
             return [

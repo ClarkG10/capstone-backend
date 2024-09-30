@@ -89,8 +89,14 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        // Retrieve the validated input data...
         $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            $validated['image'] = $imagePath;
+            $event->image = $validated['image'];
+        }
 
         $event->event_name =  $validated['event_name'];
         $event->event_location =  $validated['event_location'];
