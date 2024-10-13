@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Staff;
+use App\Models\Donor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Models\Staff;
+use App\Http\Requests\DonorRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -17,8 +19,10 @@ class AuthController extends Controller
      */
     public function login(UserRequest $request)
     {
+        // Check if it's a donor or staff login
         $user = User::where('email', $request->email)->first();
         $staff = Staff::where('email', $request->email)->first();
+        $donor = Donor::where('email', $request->email)->first(); // Check for donors
 
         if ($user && Hash::check($request->password, $user->password)) {
             return $this->createTokenResponse($user, 'user');
@@ -28,9 +32,31 @@ class AuthController extends Controller
             return $this->createTokenResponse($staff, 'staff');
         }
 
+        if ($donor && Hash::check($request->password, $donor->password)) { // Authenticate donor
+            return $this->createTokenResponse($donor, 'donor');
+        }
+
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
+    }
+
+    /**
+     * Register a new donor.
+     */
+    public function register(DonorRequest $request)
+    {
+        // Retrieve validated input data
+        $validated = $request->validated();
+        $validated['password'] = bcrypt($validated['password']); // Hash the password
+
+        // Create a new donor record
+        $donor = Donor::create($validated);
+
+        return response()->json([
+            'message' => 'Donor registered successfully!',
+            'donor' => $donor,
+        ], 201);
     }
 
     protected function createTokenResponse($user, $type)
@@ -49,10 +75,8 @@ class AuthController extends Controller
     {
         $request->user()->tokens()->delete();
 
-        $response = [
-            'message' => 'Logout.'
-        ];
-
-        return $response;
+        return response()->json([
+            'message' => 'Logout successful.',
+        ]);
     }
 }

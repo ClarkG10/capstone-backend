@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('donors', function (Blueprint $table) {
             $table->id('donor_id');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->string('fullname');
             $table->date('birthday');
             $table->string('gender');
             $table->integer('age');
             $table->text('address');
-            $table->string('email');
+            $table->string('email_address');
             $table->integer('phonenumber');
             $table->string('blood_type');
             $table->text('medical_history')->nullable();
@@ -34,7 +36,7 @@ return new class extends Migration
 
         Schema::table('donors', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

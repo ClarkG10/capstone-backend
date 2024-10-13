@@ -14,8 +14,7 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        return Organization::where('user_id', $request->user()->id)
-            ->get();
+        return Organization::where('user_id', $request->user()->id || $request->user()->user_id)->get();
     }
 
     /**

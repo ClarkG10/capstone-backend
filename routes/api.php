@@ -30,9 +30,11 @@ Route::get('/mobile/event', [EventController::class,                    'eventIn
 Route::get('/mobile/inventory', [InventoryController::class,            'inventoryIndex']);
 Route::get('/mobile/organization', [OrganizationController::class,      'organizationIndex']);
 Route::get('/mobile/donor', [DonorController::class,                    'donorIndex']);
-Route::post('/donor', [DonorController::class,                          'store'])->name('donor.store');
-Route::put('/donor/{id}', [DonorController::class,                      'update'])->name('donor.update');
-Route::put('/donor/status/{id}', [DonorController::class,               'updateStatus'])->name('status.update');
+Route::post('/donor/register', [DonorController::class,                 'register'])->name('donor.register');
+Route::post('donor/login', [DonorController::class,                     'login'])->name('donor.login');
+Route::post('donor/logout', [DonorController::class,                    'logout'])->middleware('auth:sanctum');
+Route::put('/donor/{id}', [DonorController::class,                      'update'])->middleware('auth:sanctum')->name('donor.update'); // Gamita ni pang store og details ian, dili lang pang update
+Route::put('/donor/status/{id}', [DonorController::class,               'updateStatus'])->middleware('auth:sanctum')->name('status.update');
 // 
 
 Route::get('/user', [UserController::class, 'index']);
@@ -93,6 +95,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(DonorController::class)->group(function () {
         Route::get('/donor',                   'index');
+        Route::post('donor',                   'store')->name('donor.store');
         Route::get('/donor/all',               'report');
         Route::get('/donor/{id}',              'show');
         Route::delete('/donor/{id}',           'destroy');

@@ -14,7 +14,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $event = Event::where('user_id', $request->user()->id)->orderBy('created_at', 'desc');
+        $event = Event::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $event->where(function ($query) use ($request) {
@@ -33,7 +33,7 @@ class EventController extends Controller
      */
     public function report(Request $request)
     {
-        $events = Event::where('user_id', $request->user()->id)->get();
+        $events = Event::where('user_id', $request->user()->id || $request->user()->user_id)->get();
 
         return response()->json($events);
     }

@@ -28,12 +28,12 @@ class DonorRequest extends FormRequest
                 'address' => 'required|string',
                 'gender' => 'required|string',
                 'age' => 'required|integer',
-                'email' => 'required|string',
+                'email_address' => 'required|string|email',
                 'phonenumber' => 'required|string',
                 'blood_type' => 'required|string',
                 'medical_history' => 'nullable|string|max:255',
                 'current_medications' => 'string|max:255|nullable',
-                'previous_donation' => 'required|string|nullable',
+                'previous_donation' => 'string|nullable',
                 'allergies' => 'string|nullable',
                 'emergency_name' => 'required|string|max:255',
                 'emergency_relationship' => 'required|string|max:255',
@@ -48,7 +48,7 @@ class DonorRequest extends FormRequest
                 'address' => 'string',
                 'gender' => 'string',
                 'age' => 'integer',
-                'email' => 'string|email',
+                'email_address' => 'string|email',
                 'phonenumber' => 'string',
                 'blood_type' => 'string',
                 'medical_history' => 'string|max:255',
@@ -58,10 +58,22 @@ class DonorRequest extends FormRequest
                 'emergency_name' => 'string|max:255',
                 'emergency_relationship' => 'string|max:255',
                 'emergency_phonenumber' => 'integer|min:8',
+                'user_id' => 'required|integer',
+                'status' => 'string|nullable',
             ];
         } else if (request()->routeIs('status.update')) {
             return [
                 'status' => 'string',
+            ];
+        } else if (request()->routeIs('donor.login')) {
+            return [
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+            ];
+        } else if (request()->routeIs('donor.register')) {
+            return [
+                'email' => 'required|string|email|unique:App\Models\Donor,email|max:255',
+                'password' => 'required|min:8|confirmed',
             ];
         }
     }

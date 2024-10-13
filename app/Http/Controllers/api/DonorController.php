@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DonorRequest;
 use App\Models\Donor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class DonorController extends Controller
 {
@@ -14,7 +16,7 @@ class DonorController extends Controller
      */
     public function index(Request $request)
     {
-        $donor = Donor::where('user_id', $request->user()->id)->orderBy('created_at', 'desc');
+        $donor = Donor::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $donor->where(function ($query) use ($request) {
@@ -41,7 +43,7 @@ class DonorController extends Controller
      */
     public function report(Request $request)
     {
-        return Donor::where('user_id', $request->user()->id)->get();
+        return Donor::where('user_id', $request->user()->id || $request->user()->user_id)->get();
     }
 
     /**
@@ -55,6 +57,50 @@ class DonorController extends Controller
         $donor = Donor::create($validated);
 
         return $donor;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function register(DonorRequest $request)
+    {
+        // Retrieve the validated input data...
+        $validated = $request->validated();
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user = Donor::create($validated);
+
+        return $user;
+    }
+
+    /**
+     * Log in a donor.
+     */
+    public function login(DonorRequest $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Donor::attempt($credentials)) {
+            $donor = Donor::user(); // Get the authenticated donor
+            return response()->json([
+                'message' => 'Login successful',
+                'donor' => $donor,
+                'token' => $donor->createToken('donor_token')->plainTextToken, // Generate token if using Sanctum
+            ]);
+        }
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    /**
+     * Log out a donor.
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete(); // Delete current token
+
+        return response()->json(['message' => 'Logout successful']);
     }
 
     /**
@@ -72,7 +118,7 @@ class DonorController extends Controller
         $donor->gender =  $validated['gender'];
         $donor->address =  $validated['address'];
         $donor->age =  $validated['age'];
-        $donor->email =  $validated['email'];
+        $donor->email_address =  $validated['email_address'];
         $donor->phonenumber =  $validated['phonenumber'];
         $donor->blood_type =  $validated['blood_type'];
         $donor->medical_history =  $validated['medical_history'];

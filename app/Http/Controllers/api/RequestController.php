@@ -14,7 +14,7 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        $bloodRequest = BloodRequest::where('user_id', $request->user()->id)->orderBy('created_at', 'desc');
+        $bloodRequest = BloodRequest::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $bloodRequest->where(function ($query) use ($request) {

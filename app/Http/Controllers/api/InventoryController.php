@@ -14,7 +14,7 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        $inventory = Inventory::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->paginate(8);
+        $inventory = Inventory::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc')->paginate(8);
 
         return $inventory;
     }
@@ -24,7 +24,7 @@ class InventoryController extends Controller
      */
     public function report(Request $request)
     {
-        return Inventory::where('user_id', $request->user()->id)->get();
+        return Inventory::where('user_id', $request->user()->id || $request->user()->user_id)->get();
     }
 
     /**
