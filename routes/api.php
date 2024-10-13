@@ -33,8 +33,9 @@ Route::get('/mobile/donor', [DonorController::class,                    'donorIn
 Route::post('/donor/register', [DonorController::class,                 'register'])->name('donor.register');
 Route::post('donor/login', [DonorController::class,                     'login'])->name('donor.login');
 Route::post('donor/logout', [DonorController::class,                    'logout'])->middleware('auth:sanctum');
-Route::put('/donor/{id}', [DonorController::class,                      'update'])->middleware('auth:sanctum')->name('donor.update'); // Gamita ni pang store og details ian, dili lang pang update
 Route::put('/donor/status/{id}', [DonorController::class,               'updateStatus'])->middleware('auth:sanctum')->name('status.update');
+// Gamita ni pang store og details ian, dili lang pang update
+Route::put('/donor/{id}', [DonorController::class,                      'update'])->middleware('auth:sanctum')->name('donor.update');
 // 
 
 Route::get('/user', [UserController::class, 'index']);
