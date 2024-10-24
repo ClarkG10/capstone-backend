@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('donors', function (Blueprint $table) {
             $table->id('donor_id');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->string('email')->unique()->nullable;
+            $table->string('password')->nullable();
             $table->string('fullname');
             $table->date('birthday');
             $table->string('gender');

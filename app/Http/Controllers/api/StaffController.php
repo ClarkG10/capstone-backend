@@ -17,7 +17,7 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-        return Staff::where('user_id', $request->user()->id || $request->user()->user_id)->get();
+        return Staff::where('user_id', $request->user()->id)->get();
     }
 
     /**

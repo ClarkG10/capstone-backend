@@ -14,8 +14,14 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        $bloodRequest = BloodRequest::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc');
+        // Use the appropriate user_id or id
+        $userId = $request->user()->user_id ?? $request->user()->id;
 
+        // Query BloodRequest for the authenticated user (either staff or user)
+        $bloodRequest = BloodRequest::where('user_id', $userId)
+            ->orderBy('created_at', 'desc');
+
+        // Search for keyword in blood_type, component, or quantity if provided
         if ($request->keyword) {
             $bloodRequest->where(function ($query) use ($request) {
                 $query->where('blood_type', 'like', '%' . $request->keyword . '%')
@@ -27,13 +33,22 @@ class RequestController extends Controller
         return $bloodRequest->paginate(5);
     }
 
-
     /**
      * Display a listing of the resource.
      */
     public function report(Request $request)
     {
-        $query = BloodRequest::query()->orderBy('created_at', 'desc');
+        // Check if the user is authenticated
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        $query = BloodRequest::where(function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                ->orWhere('receiver_id', $userId);
+        })->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
             $query->where(function ($query) use ($request) {
@@ -43,10 +58,13 @@ class RequestController extends Controller
             });
         }
 
+        // Fetch all matching records
         $bloodRequests = $query->get();
 
-        return $bloodRequests;
+        return response()->json($bloodRequests);
     }
+
+
 
 
     /**

@@ -16,10 +16,16 @@ class DonorController extends Controller
      */
     public function index(Request $request)
     {
-        $donor = Donor::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc');
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        $donorQuery = Donor::where('user_id', $userId)->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
-            $donor->where(function ($query) use ($request) {
+            $donorQuery->where(function ($query) use ($request) {
                 $query->where('fullname', 'like', '%' . $request->keyword . '%')
                     ->orWhere('address', 'like', '%' . $request->keyword . '%')
                     ->orWhere('gender', 'like', '%' . $request->keyword . '%')
@@ -27,8 +33,10 @@ class DonorController extends Controller
             });
         }
 
-        return $donor->paginate(6);
+        // Return paginated results
+        return response()->json($donorQuery->paginate(6));
     }
+
 
     /**
      * Display a listing of the resource.
@@ -43,8 +51,17 @@ class DonorController extends Controller
      */
     public function report(Request $request)
     {
-        return Donor::where('user_id', $request->user()->id || $request->user()->user_id)->get();
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        $donors = Donor::where('user_id', $userId)->get();
+
+        return response()->json($donors);
     }
+
 
     /**
      * Store a newly created resource in storage.

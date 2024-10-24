@@ -14,10 +14,20 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $event = Event::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc');
+        // Check if the user is authenticated
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
 
+        // Get the authenticated user's ID
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        // Query Events for the authenticated user
+        $eventQuery = Event::where('user_id', $userId)->orderBy('created_at', 'desc');
+
+        // If there is a keyword, add additional filtering
         if ($request->keyword) {
-            $event->where(function ($query) use ($request) {
+            $eventQuery->where(function ($query) use ($request) {
                 $query->where('event_name', 'like', '%' . $request->keyword . '%')
                     ->orWhere('event_location', 'like', '%' . $request->keyword . '%')
                     ->orWhere('gender', 'like', '%' . $request->keyword . '%')
@@ -25,18 +35,30 @@ class EventController extends Controller
             });
         }
 
-        return $event->paginate(6);
+        // Return paginated results
+        return response()->json($eventQuery->paginate(6));
     }
+
 
     /**
      * Display a listing of the resource.
      */
     public function report(Request $request)
     {
-        $events = Event::where('user_id', $request->user()->id || $request->user()->user_id)->get();
+        // Check if the user is authenticated
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        // Get the authenticated user's ID
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        // Query Events for the authenticated user
+        $events = Event::where('user_id', $userId)->get();
 
         return response()->json($events);
     }
+
 
     /**
      * Display a listing of the resource.

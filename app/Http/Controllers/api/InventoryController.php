@@ -14,18 +14,30 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        $inventory = Inventory::where('user_id', $request->user()->id || $request->user()->user_id)->orderBy('created_at', 'desc')->paginate(8);
+        // Get the user_id based on whether the authenticated user is a staff member or regular user
+        $userId = $request->user()->user_id ?? $request->user()->id; // Fallback to `id` if `user_id` is not present
+
+        // Fetch inventory where the user_id matches
+        $inventory = Inventory::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
 
         return $inventory;
     }
+
 
     /**
      * Display a listing of the resource.
      */
     public function report(Request $request)
     {
-        return Inventory::where('user_id', $request->user()->id || $request->user()->user_id)->get();
+        // Get the user_id based on whether the authenticated user is a staff member or regular user
+        $userId = $request->user()->user_id ?? $request->user()->id; // Fallback to `id` if `user_id` is not present
+
+        // Fetch all inventory records where user_id matches
+        return Inventory::where('user_id', $userId)->get();
     }
+
 
     /**
      * Display a listing of the resource.

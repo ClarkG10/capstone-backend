@@ -14,7 +14,15 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        return Organization::where('user_id', $request->user()->id || $request->user()->user_id)->get();
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        $organizations = Organization::where('user_id', $userId)->get();
+
+        return response()->json($organizations);
     }
 
     /**
