@@ -28,9 +28,22 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function organizationIndex()
+    public function organizationIndex(Request $request)
     {
-        return Organization::all();
+        $query = Organization::query();
+
+        if ($request->keyword) {
+            $query->where(function ($query) use ($request) {
+                $query->where('org_name', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('org_type', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('address', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('city', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        $organization = $query->get();
+
+        return $organization;
     }
 
     /** 
