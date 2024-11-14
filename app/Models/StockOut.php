@@ -28,7 +28,7 @@ class StockOut extends Model
      *
      * @var array
      */
-    protected $fillable = ['blood_type', 'component', 'rh_factor', 'units_out', 'inventory_id', 'user_id'];
+    protected $fillable = ['blood_type', 'component', 'rh_factor', 'units_out', 'inventory_id', 'reserveBlood_id', 'user_id'];
 
     /**
      * The attributes that aren't mass assignable.

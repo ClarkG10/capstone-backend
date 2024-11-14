@@ -11,26 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_out', function (Blueprint $table) {
-            $table->id('stockOut_id');
+        Schema::create('reserve_blood', function (Blueprint $table) {
+            $table->id('reserveBlood_id');
             $table->string('blood_type');
             $table->string('rh_factor');
             $table->string('component');
-            $table->integer('units_out');
+            $table->string('avail_blood_units');
             $table->timestamps();
         });
 
-        Schema::table('stock_out', function (Blueprint $table) {
+        Schema::table('reserve_blood', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        Schema::table('stock_out', function (Blueprint $table) {
-            $table->unsignedBigInteger('inventory_id')->nullable();
-        });
-
-        Schema::table('stock_out', function (Blueprint $table) {
-            $table->unsignedBigInteger('reserveBlood_id')->nullable();
         });
     }
 
@@ -39,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_out');
+        Schema::dropIfExists('reserve_blood');
     }
 };

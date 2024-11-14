@@ -27,7 +27,10 @@ return new class extends Migration
 
         Schema::table('stock_in', function (Blueprint $table) {
             $table->unsignedBigInteger('inventory_id')->nullable();
-            $table->foreign('inventory_id')->references('inventory_id')->on('inventory');
+        });
+
+        Schema::table('stock_in', function (Blueprint $table) {
+            $table->unsignedBigInteger('reserveBlood_id')->nullable();
         });
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StockInRequest extends FormRequest
+class ReserveBloodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,15 +21,18 @@ class StockInRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->routeIs('stockIn.store')) {
+
+        if (request()->routeIs('reserveblood.store')) {
             return [
                 'blood_type' => 'required|string|max:255',
                 'rh_factor' => 'required|string|max:255',
                 'component' => 'required|string|max:255',
-                'units_in' => 'required|integer',
-                'inventory_id' => 'integer',
-                'reserveBlood_id' => 'integer',
+                'avail_blood_units' => 'required|integer',
                 'user_id' => 'required|integer',
+            ];
+        } else if (request()->routeIs('reserveblood.update')) {
+            return [
+                'avail_blood_units' => 'required|integer',
             ];
         }
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RequestController;
+use App\Http\Controllers\api\ReserveBloodController;
 use App\Http\Controllers\api\StockInController;
 use App\Http\Controllers\api\StockOutController;
 use App\Http\Controllers\Api\UserController;
@@ -74,6 +75,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/inventory/{id}',                   'update');
         Route::put('/inventory/bloodunits/{id}',        'bloodUnits')->name('inventory.update');
         Route::delete('/inventory/{id}',                'destroy');
+    });
+
+    Route::controller(ReserveBloodController::class)->group(function () {
+        Route::get('/reserveblood',                        'index');
+        Route::get('/reserveblood/all',                    'report');
+        Route::get('/reserveblood/{id}',                   'show');
+        Route::post('/reserveblood',                       'store')->name('reserveblood.store');
+        Route::put('/reserveblood/{id}',                   'update');
+        Route::put('/reserveblood/bloodunits/{id}',        'bloodUnits')->name('reserveblood.update');
+        Route::delete('/reserveblood/{id}',                'destroy');
     });
 
     Route::controller(OrganizationController::class)->group(function () {

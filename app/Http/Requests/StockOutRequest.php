@@ -27,7 +27,8 @@ class StockOutRequest extends FormRequest
                 'rh_factor' => 'required|string|max:255',
                 'component' => 'required|string|max:255',
                 'units_out' => 'required|integer',
-                'inventory_id' => 'required|integer',
+                'inventory_id' => 'integer',
+                'reserveBlood_id' => 'integer',
                 'user_id' => 'required|integer',
             ];
         }

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestBloodRequest;
 use Illuminate\Http\Request;
 use App\Models\BloodRequest;
+use App\Mail\BloodRequestMail;
+use App\Models\Organization;
+use Illuminate\Support\Facades\Mail;
 
 class RequestController extends Controller
 {
@@ -64,20 +67,24 @@ class RequestController extends Controller
         return response()->json($bloodRequests);
     }
 
-
-
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(RequestBloodRequest $request)
     {
-        // Retrieve the validated input data...
+        // Retrieve the validated input data
         $validated = $request->validated();
 
+        // Create the blood request
         $bloodRequest = BloodRequest::create($validated);
 
-        return $bloodRequest;
+        // Retrieve organization details
+        $organization = Organization::find($validated['receiver_id']);
+
+        // Send email to the receiver (organization)
+        Mail::to($organization->org_email)->send(new BloodRequestMail($bloodRequest, $organization->org_name));
+
+        return response()->json($bloodRequest, 201);
     }
 
     /**
