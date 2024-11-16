@@ -24,7 +24,7 @@ class DonorRequest extends FormRequest
         if (request()->routeIs('donor.store')) {
             return [
                 'fullname' => 'required|string|max:255',
-                'birthday' => 'required|date|max:255',
+                'birthday' => 'required|date',
                 'address' => 'required|string',
                 'gender' => 'required|string',
                 'age' => 'required|integer',
@@ -43,32 +43,27 @@ class DonorRequest extends FormRequest
             ];
         } else if (request()->routeIs('donor.update')) {
             return [
-                'fullname' => 'string|max:255',
-                'birthday' => 'date|max:255',
-                'address' => 'string',
-                'gender' => 'string',
-                'age' => 'integer',
-                'email_address' => 'string|email',
-                'phonenumber' => 'string',
-                'blood_type' => 'string',
-                'medical_history' => 'string|max:255',
+                'fullname' => 'string|max:255|nullable',
+                'birthday' => 'date|max:255|nullable',
+                'address' => 'string|nullable',
+                'gender' => 'string|nullable',
+                'age' => 'integer|nullable',
+                'email_address' => 'string|email|nullable',
+                'phonenumber' => 'string|nullable',
+                'blood_type' => 'string|nullable',
+                'medical_history' => 'string|max:255|nullable',
                 'current_medications' => 'string|nullable',
                 'previous_donation' => 'string|nullable',
                 'allergies' => 'string|nullable',
-                'emergency_name' => 'string|max:255',
-                'emergency_relationship' => 'string|max:255',
-                'emergency_phonenumber' => 'integer|min:8',
-                'user_id' => 'required|integer',
-                'status' => 'string|nullable',
+                'emergency_name' => 'string|max:255|nullable',
+                'emergency_relationship' => 'string|max:255|nullable',
+                'emergency_phonenumber' => 'integer|min:8|nullable',
+                'user_id' => 'required|integer|nullable',
+                'status' => 'string|nullable|nullable',
             ];
         } else if (request()->routeIs('status.update')) {
             return [
                 'status' => 'string',
-            ];
-        } else if (request()->routeIs('donor.login')) {
-            return [
-                'email' => 'required|string|email',
-                'password' => 'required|string',
             ];
         } else if (request()->routeIs('donor.register')) {
             return [

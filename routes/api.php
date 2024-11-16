@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\api\DonationHistoryController;
 use App\Http\Controllers\api\DonorController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\api\StaffController;
@@ -31,9 +32,7 @@ Route::get('/mobile/event', [EventController::class,                    'eventIn
 Route::get('/mobile/inventory', [InventoryController::class,            'inventoryIndex']);
 Route::get('/mobile/organization', [OrganizationController::class,      'organizationIndex']);
 Route::get('/mobile/donor', [DonorController::class,                    'donorIndex']);
-Route::post('/donor/register', [DonorController::class,                 'register'])->name('donor.register');
-Route::post('donor/login', [DonorController::class,                     'login'])->name('donor.login');
-Route::post('donor/logout', [DonorController::class,                    'logout'])->middleware('auth:sanctum');
+Route::post('/donor/register', [DonorController::class,                 'register'])->name('donor.register'); // pagregister kani gihapon
 Route::put('/donor/status/{id}', [DonorController::class,               'updateStatus'])->middleware('auth:sanctum')->name('status.update');
 // Gamita ni pang store og details ian, dili lang pang update
 Route::put('/donor/{id}', [DonorController::class,                      'update'])->middleware('auth:sanctum')->name('donor.update');
@@ -41,10 +40,10 @@ Route::put('/donor/{id}', [DonorController::class,                      'update'
 
 Route::get('/user', [UserController::class, 'index']);
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
-Route::post('/login', [AuthController::class, 'login'])->name('user.login');
+Route::post('/login', [AuthController::class, 'login'])->name('user.login'); // mao ni gamita sa paglog in ian
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']); // mao ni gamita sa logout ian
     Route::get('/profile/show',  [ProfileController::class, 'show']);
 
     Route::controller(UserController::class)->group(function () {
@@ -107,10 +106,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(DonorController::class)->group(function () {
         Route::get('/donor',                   'index');
-        Route::post('donor',                   'store')->name('donor.store');
+        Route::post('/donor',                   'store')->name('donor.store');
         Route::get('/donor/all',               'report');
         Route::get('/donor/{id}',              'show');
         Route::delete('/donor/{id}',           'destroy');
+    });
+
+    Route::controller(DonationHistoryController::class)->group(function () {
+        Route::get('/donationhistory',                   'index');
+        Route::post('/donationhistory',                  'store')->name('donationhistory.store');
+        Route::delete('/donationhistory/{id}',              'destroy');
     });
 
     Route::controller(StaffController::class)->group(function () {

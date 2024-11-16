@@ -22,7 +22,7 @@ class AuthController extends Controller
         // Check if it's a donor or staff login
         $user = User::where('email', $request->email)->first();
         $staff = Staff::where('email', $request->email)->first();
-        $donor = Donor::where('email', $request->email)->first(); // Check for donors
+        $donor = Donor::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             return $this->createTokenResponse($user, 'user');
@@ -39,24 +39,6 @@ class AuthController extends Controller
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
-    }
-
-    /**
-     * Register a new donor.
-     */
-    public function register(DonorRequest $request)
-    {
-        // Retrieve validated input data
-        $validated = $request->validated();
-        $validated['password'] = bcrypt($validated['password']); // Hash the password
-
-        // Create a new donor record
-        $donor = Donor::create($validated);
-
-        return response()->json([
-            'message' => 'Donor registered successfully!',
-            'donor' => $donor,
-        ], 201);
     }
 
     protected function createTokenResponse($user, $type)

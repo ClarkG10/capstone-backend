@@ -92,35 +92,6 @@ class DonorController extends Controller
     }
 
     /**
-     * Log in a donor.
-     */
-    public function login(DonorRequest $request)
-    {
-        $credentials = $request->only('email', 'password');
-
-        if (Donor::attempt($credentials)) {
-            $donor = Donor::user(); // Get the authenticated donor
-            return response()->json([
-                'message' => 'Login successful',
-                'donor' => $donor,
-                'token' => $donor->createToken('donor_token')->plainTextToken, // Generate token if using Sanctum
-            ]);
-        }
-
-        return response()->json(['message' => 'Invalid credentials'], 401);
-    }
-
-    /**
-     * Log out a donor.
-     */
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete(); // Delete current token
-
-        return response()->json(['message' => 'Logout successful']);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(DonorRequest $request, string $id)

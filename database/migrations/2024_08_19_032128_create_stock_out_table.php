@@ -17,20 +17,15 @@ return new class extends Migration
             $table->string('rh_factor');
             $table->string('component');
             $table->integer('units_out');
+            $table->unsignedBigInteger('inventory_id')->nullable();
+            $table->unsignedBigInteger('reserveBlood_id')->nullable();
+
             $table->timestamps();
         });
 
         Schema::table('stock_out', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        Schema::table('stock_out', function (Blueprint $table) {
-            $table->unsignedBigInteger('inventory_id')->nullable();
-        });
-
-        Schema::table('stock_out', function (Blueprint $table) {
-            $table->unsignedBigInteger('reserveBlood_id')->nullable();
         });
     }
 

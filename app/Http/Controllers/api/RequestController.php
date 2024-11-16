@@ -81,8 +81,10 @@ class RequestController extends Controller
         // Retrieve organization details
         $organization = Organization::find($validated['receiver_id']);
 
+        $organizationName = Organization::find($validated['user_id']);
+
         // Send email to the receiver (organization)
-        Mail::to($organization->org_email)->send(new BloodRequestMail($bloodRequest, $organization->org_name));
+        Mail::to($organization->org_email)->send(new BloodRequestMail($bloodRequest, $organizationName->org_name));
 
         return response()->json($bloodRequest, 201);
     }
