@@ -31,7 +31,7 @@ use App\Http\Controllers\Api\UserController;
 Route::get('/mobile/event', [EventController::class,                    'eventIndex']);
 Route::get('/mobile/inventory', [InventoryController::class,            'inventoryIndex']);
 Route::get('/mobile/organization', [OrganizationController::class,      'organizationIndex']);
-Route::get('/mobile/donor', [DonorController::class,                    'donorIndex']);
+Route::get('/mobile/donor/{id}', [DonorController::class,               'show']); // mao ni gamita ian pagkuha sa donor
 Route::post('/donor/register', [DonorController::class,                 'register'])->name('donor.register'); // pagregister kani gihapon
 Route::put('/donor/status/{id}', [DonorController::class,               'updateStatus'])->middleware('auth:sanctum')->name('status.update');
 // Gamita ni pang store og details ian, dili lang pang update

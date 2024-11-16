@@ -25,8 +25,6 @@ class DonationHistoryRequest extends FormRequest
             return [
                 'units' => 'required|integer',
                 'component' => 'required|string',
-                'event_name' => 'string|nullable',
-                'comments' => 'string|nullable',
                 'donation_date' => 'required|date',
                 'donor_id' => 'required|integer',
             ];

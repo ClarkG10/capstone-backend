@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id('donationhistory_id');
             $table->integer('units');
             $table->string('component');
-            $table->text('event_name')->nullable();
-            $table->text('comments')->nullable();
             $table->date('donation_date');
             $table->timestamps();
         });

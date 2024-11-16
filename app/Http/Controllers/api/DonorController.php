@@ -37,13 +37,12 @@ class DonorController extends Controller
         return response()->json($donorQuery->paginate(6));
     }
 
-
     /**
-     * Display a listing of the resource.
+     * Display the specified resource.
      */
-    public function donorIndex()
+    public function show(string $id)
     {
-        return Donor::all();
+        return Donor::findOrFail($id);
     }
 
     /**

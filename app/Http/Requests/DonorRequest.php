@@ -63,7 +63,7 @@ class DonorRequest extends FormRequest
             ];
         } else if (request()->routeIs('status.update')) {
             return [
-                'status' => 'string',
+                'status' => 'required|string',
             ];
         } else if (request()->routeIs('donor.register')) {
             return [
