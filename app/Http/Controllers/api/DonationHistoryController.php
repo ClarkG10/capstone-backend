@@ -21,6 +21,7 @@ class DonationHistoryController extends Controller
      */
     public function store(DonationHistoryRequest $request)
     {
+        // Retrieve the validated input data...
         $validated = $request->validated();
 
         $donationhistory = DonationHistory::create($validated);

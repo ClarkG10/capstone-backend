@@ -106,7 +106,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(DonorController::class)->group(function () {
         Route::get('/donor',                   'index');
-        Route::post('/donor',                   'store')->name('donor.store');
+        Route::post('/donor',                  'store')->name('donor.store');
         Route::get('/donor/all',               'report');
         Route::get('/donor/{id}',              'show');
         Route::delete('/donor/{id}',           'destroy');
@@ -115,7 +115,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(DonationHistoryController::class)->group(function () {
         Route::get('/donationhistory',                   'index');
         Route::post('/donationhistory',                  'store')->name('donationhistory.store');
-        Route::delete('/donationhistory/{id}',              'destroy');
+        Route::delete('/donationhistory/{id}',           'destroy');
     });
 
     Route::controller(StaffController::class)->group(function () {

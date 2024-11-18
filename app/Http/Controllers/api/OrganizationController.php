@@ -35,7 +35,7 @@ class OrganizationController extends Controller
         if ($request->keyword) {
             $query->where(function ($query) use ($request) {
                 $query->where('org_name', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('org_type', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('org_type', 'like', $request->keyword)
                     ->orWhere('address', 'like', '%' . $request->keyword . '%')
                     ->orWhere('city', 'like', '%' . $request->keyword . '%');
             });

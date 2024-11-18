@@ -30,7 +30,6 @@ class EventController extends Controller
             $eventQuery->where(function ($query) use ($request) {
                 $query->where('event_name', 'like', '%' . $request->keyword . '%')
                     ->orWhere('event_location', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('gender', 'like', '%' . $request->keyword . '%')
                     ->orWhere('description', 'like', '%' . $request->keyword . '%');
             });
         }

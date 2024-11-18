@@ -28,8 +28,8 @@ class DonorController extends Controller
             $donorQuery->where(function ($query) use ($request) {
                 $query->where('fullname', 'like', '%' . $request->keyword . '%')
                     ->orWhere('address', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('gender', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('blood_type', 'like', '%' . $request->keyword . '%');
+                    ->orWhere('gender', 'like', $request->keyword)
+                    ->orWhere('blood_type', 'like', $request->keyword);
             });
         }
 
@@ -145,6 +145,7 @@ class DonorController extends Controller
     public function destroy(string $id)
     {
         $donor = Donor::FindOrFail($id);
+        $donor->donationHistory()->delete();
         $donor->delete();
         return $donor;
     }

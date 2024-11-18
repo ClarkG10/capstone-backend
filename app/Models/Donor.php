@@ -32,6 +32,12 @@ class Donor extends Model
      */
     protected $fillable = ['email', 'password', 'fullname', 'birthday', 'gender', 'age', 'address', 'email_address', 'phonenumber', 'blood_type', 'medical_history', 'current_medications', 'allergies', 'previous_donation', 'emergency_name', 'emergency_relationship', 'emergency_phonenumber', 'status', 'user_id'];
 
+
+    public function donationHistory()
+    {
+        return $this->hasMany(DonationHistory::class, 'donor_id');
+    }
+
     /**
      * The attributes that aren't mass assignable.
      *

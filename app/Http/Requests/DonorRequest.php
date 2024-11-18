@@ -44,7 +44,7 @@ class DonorRequest extends FormRequest
         } else if (request()->routeIs('donor.update')) {
             return [
                 'fullname' => 'string|max:255|nullable',
-                'birthday' => 'date|max:255|nullable',
+                'birthday' => 'date|nullable',
                 'address' => 'string|nullable',
                 'gender' => 'string|nullable',
                 'age' => 'integer|nullable',
@@ -58,8 +58,6 @@ class DonorRequest extends FormRequest
                 'emergency_name' => 'string|max:255|nullable',
                 'emergency_relationship' => 'string|max:255|nullable',
                 'emergency_phonenumber' => 'integer|min:8|nullable',
-                'user_id' => 'required|integer|nullable',
-                'status' => 'string|nullable|nullable',
             ];
         } else if (request()->routeIs('status.update')) {
             return [

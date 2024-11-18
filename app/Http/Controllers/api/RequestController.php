@@ -27,9 +27,9 @@ class RequestController extends Controller
         // Search for keyword in blood_type, component, or quantity if provided
         if ($request->keyword) {
             $bloodRequest->where(function ($query) use ($request) {
-                $query->where('blood_type', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('component', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('quantity', 'like', '%' . $request->keyword . '%');
+                $query->where('blood_type', 'like', $request->keyword)
+                    ->orWhere('component', 'like', $request->keyword)
+                    ->orWhere('quantity', 'like', $request->keyword);
             });
         }
 
@@ -55,9 +55,9 @@ class RequestController extends Controller
 
         if ($request->keyword) {
             $query->where(function ($query) use ($request) {
-                $query->where('blood_type', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('component', 'like', '%' . $request->keyword . '%')
-                    ->orWhere('quantity', 'like', '%' . $request->keyword . '%');
+                $query->where('blood_type', 'like', $request->keyword)
+                    ->orWhere('component', 'like',  $request->keyword)
+                    ->orWhere('quantity', 'like', $request->keyword);
             });
         }
 
