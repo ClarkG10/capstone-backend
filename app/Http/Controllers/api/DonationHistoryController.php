@@ -21,13 +21,25 @@ class DonationHistoryController extends Controller
      */
     public function store(DonationHistoryRequest $request)
     {
-        // Retrieve the validated input data...
+        // Retrieve the validated input data
         $validated = $request->validated();
 
-        $donationhistory = DonationHistory::create($validated);
+        // Check if the request has a file for 'laboratory_attachment'
+        if ($request->hasFile('laboratory_attachment')) {
+            // Store the file in the 'Laboratory_report' directory within the 'public' disk
+            $labPath = $request->file('laboratory_attachment')->store('Laboratory_reports', 'public');
 
-        return $donationhistory;
+            // Add the stored file path to the validated data
+            $validated['laboratory_attachment'] = $labPath;
+        }
+
+        // Create a new DonationHistory record with the validated data
+        $donationHistory = DonationHistory::create($validated);
+
+        // Return the newly created donation history record as a response
+        return response()->json($donationHistory, 201); // Returning JSON with a 201 Created status
     }
+
 
     /**
      * Remove the specified resource from storage.

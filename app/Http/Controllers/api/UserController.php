@@ -25,7 +25,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        // Retrieve the validated input data...
         $validated = $request->validated();
 
         $validated['password'] = Hash::make($validated['password']);

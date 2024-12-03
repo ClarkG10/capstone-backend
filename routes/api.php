@@ -40,10 +40,11 @@ Route::put('/donor/{id}', [DonorController::class,                      'update'
 
 Route::get('/user', [UserController::class, 'index']);
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
-Route::post('/login', [AuthController::class, 'login'])->name('user.login'); // mao ni gamita sa paglog in ian
+Route::post('/login', [AuthController::class, 'login'])->name('user.login');
+Route::get('/bloodrequest/stream', [RequestController::class, 'stream'])->middleware('auth:sanctum');
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/logout', [AuthController::class, 'logout']); // mao ni gamita sa logout ian
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/profile/show',  [ProfileController::class, 'show']);
 
     Route::controller(UserController::class)->group(function () {
@@ -52,7 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/user/email/{id}',          'email')->name('user.email');
         Route::put('/user/password/{id}',       'password')->name('user.password');
         Route::delete('/user/{id}',             'destroy');
-        Route::get('/profile',                  'showProfile');
     });
 
     Route::controller(EventController::class)->group(function () {
@@ -78,6 +78,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(ReserveBloodController::class)->group(function () {
         Route::get('/reserveblood',                        'index');
+        Route::get('all/reserveblood',                     'reserveIndex');
         Route::get('/reserveblood/all',                    'report');
         Route::get('/reserveblood/{id}',                   'show');
         Route::post('/reserveblood',                       'store')->name('reserveblood.store');
@@ -99,7 +100,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/bloodrequest/all',               'report');
         Route::get('/bloodrequest/{id}',              'show');
         Route::post('/bloodrequest',                  'store')->name('request.store');
-        Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('status.update');
+        Route::put('/bloodrequest/status/{id}',       'updateStatus')->name('requestStatus.update');
         Route::put('/bloodrequest/{id}',              'update')->name('request.update');
         Route::delete('/bloodrequest/{id}',           'destroy');
     });

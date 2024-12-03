@@ -12,9 +12,17 @@ class StockInController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return StockIn::all();
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        $stockIn = StockIn::where('user_id', $userId)->get();
+
+        return response()->json($stockIn);
     }
 
     /**

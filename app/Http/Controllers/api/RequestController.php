@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestBloodRequest;
@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\BloodRequest;
 use App\Mail\BloodRequestMail;
 use App\Models\Organization;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class RequestController extends Controller
 {
@@ -17,23 +19,37 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        // Use the appropriate user_id or id
-        $userId = $request->user()->user_id ?? $request->user()->id;
+        // Check if the user is authenticated
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
 
-        // Query BloodRequest for the authenticated user (either staff or user)
-        $bloodRequest = BloodRequest::where('user_id', $userId)
-            ->orderBy('created_at', 'desc');
+        $userId = $request->user()->id ?? $request->user()->user_id;
 
-        // Search for keyword in blood_type, component, or quantity if provided
+        $organization = Organization::find($userId);
+
+        $query = BloodRequest::where(function ($query) use ($userId, $organization) {
+            $query->where('user_id', $userId)
+                ->orWhere('receiver_id', $userId);
+
+            // Add organization check only if it exists
+            if ($organization) {
+                $query->orWhere('receiver_id', $organization->org_id);
+            }
+        })->orderBy('created_at', 'desc');
+
         if ($request->keyword) {
-            $bloodRequest->where(function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
                 $query->where('blood_type', 'like', $request->keyword)
-                    ->orWhere('component', 'like', $request->keyword)
+                    ->orWhere('component', 'like',  $request->keyword)
                     ->orWhere('quantity', 'like', $request->keyword);
             });
         }
 
-        return $bloodRequest->paginate(5);
+        // Fetch all matching records
+        $bloodRequests = $query->paginate(10);
+
+        return response()->json($bloodRequests);
     }
 
     /**
@@ -48,9 +64,16 @@ class RequestController extends Controller
 
         $userId = $request->user()->id ?? $request->user()->user_id;
 
-        $query = BloodRequest::where(function ($query) use ($userId) {
+        $organization = Organization::find($userId);
+
+        $query = BloodRequest::where(function ($query) use ($userId, $organization) {
             $query->where('user_id', $userId)
                 ->orWhere('receiver_id', $userId);
+
+            // Add organization check only if it exists
+            if ($organization) {
+                $query->orWhere('receiver_id', $organization->org_id);
+            }
         })->orderBy('created_at', 'desc');
 
         if ($request->keyword) {
@@ -66,7 +89,68 @@ class RequestController extends Controller
 
         return response()->json($bloodRequests);
     }
+    /**
+     * Stream updates for blood requests in real-time using Server-Sent Events.
+     */
+    public function stream(Request $request)
+    {
+        // Set unlimited execution time
+        set_time_limit(0);  // This will allow the script to run indefinitely
 
+        // Ensure the user is authenticated
+        if (!$request->user()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Get the user ID
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        // Return the streaming response
+        return response()->stream(function () use ($userId) {
+            try {
+                while (true) {
+                    // Fetch updates for the user (you may want to customize the query)
+                    $updates = BloodRequest::where('user_id', $userId)
+                        ->orWhere('status', 'Pending')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+                    Log::info('Fetched ID:', ['updates' => json_encode($updates)]);
+
+                    // Check if updates are empty or not and send appropriate data
+                    if ($updates->isEmpty()) {
+                        echo "data: dasdasd \n\n"; // Send empty object if no updates
+                    } else {
+                        // Send the updates data as JSON
+                        echo "data: " . json_encode($updates) . "\n\n";
+                    }
+
+                    // Flush the output buffer to send data to the client
+                    flush();
+
+                    // Exit if the client disconnects
+                    if (connection_aborted()) {
+                        break;
+                    }
+
+                    // Sleep to reduce server load (every 5 seconds)
+                    sleep(2);
+                }
+            } catch (\Exception $e) {
+                Log::error('SSE Stream Error: ' . $e->getMessage());
+                echo "data: {\"error\": \"An error occurred while streaming data.\"}\n\n";
+                ob_flush();
+                flush();
+            }
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache',
+            'Connection' => 'keep-alive',
+            'Access-Control-Allow-Origin' => '*',  // Allow any origin or specify a specific one
+            'Access-Control-Allow-Methods' => 'GET', // Specify allowed methods
+            'Access-Control-Allow-Headers' => 'Content-Type', // Allow necessary headers
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -79,7 +163,7 @@ class RequestController extends Controller
         $bloodRequest = BloodRequest::create($validated);
 
         // Retrieve organization details
-        $organization = Organization::find($validated['receiver_id']);
+        $organization = Organization::where('org_id', $validated['receiver_id'])->first();
 
         $organizationName = Organization::find($validated['user_id']);
 
@@ -104,6 +188,12 @@ class RequestController extends Controller
     {
         $bloodRequest = BloodRequest::findOrFail($id);
 
+        // Check if the request was created more than 3 minutes ago
+        $threeMinutesAgo = Carbon::now()->subMinutes(3);
+        if ($bloodRequest->created_at < $threeMinutesAgo) {
+            return response()->json(['error' => 'Cannot update a blood request after 3 minutes.'], 403);
+        }
+
         // Retrieve the validated input data...
         $validated = $request->validated();
 
@@ -114,7 +204,7 @@ class RequestController extends Controller
 
         $bloodRequest->save();
 
-        return $bloodRequest;
+        return response()->json($bloodRequest);
     }
 
     /**

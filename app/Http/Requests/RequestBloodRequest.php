@@ -38,7 +38,7 @@ class RequestBloodRequest extends FormRequest
                 'urgency_scale' => 'string|max:255',
                 'quantity' => 'integer',
             ];
-        } else if (request()->routeIs('status.update')) {
+        } else if (request()->routeIs('requestStatus.update')) {
             return [
                 'status' => 'string',
             ];

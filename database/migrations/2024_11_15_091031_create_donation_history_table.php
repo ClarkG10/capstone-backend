@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('units');
             $table->string('component');
             $table->date('donation_date');
+            $table->text('laboratory_attachment');
             $table->timestamps();
         });
 

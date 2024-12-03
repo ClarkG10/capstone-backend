@@ -100,23 +100,7 @@ class DonorController extends Controller
         // Retrieve the validated input data...
         $validated = $request->validated();
 
-        $donor->fullname =  $validated['fullname'];
-        $donor->birthday =  $validated['birthday'];
-        $donor->gender =  $validated['gender'];
-        $donor->address =  $validated['address'];
-        $donor->age =  $validated['age'];
-        $donor->email_address =  $validated['email_address'];
-        $donor->phonenumber =  $validated['phonenumber'];
-        $donor->blood_type =  $validated['blood_type'];
-        $donor->medical_history =  $validated['medical_history'];
-        $donor->current_medications =  $validated['current_medications'];
-        $donor->allergies =  $validated['allergies'];
-        $donor->previous_donation =  $validated['previous_donation'];
-        $donor->emergency_name =  $validated['emergency_name'];
-        $donor->emergency_relationship =  $validated['emergency_relationship'];
-        $donor->emergency_phonenumber =  $validated['emergency_phonenumber'];
-
-        $donor->save();
+        $donor->update($validated);
 
         return $donor;
     }

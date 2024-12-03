@@ -45,7 +45,6 @@ class StaffController extends Controller
      */
     public function store(StaffRequest $request)
     {
-        // Retrieve the validated input data...
         $validated = $request->validated();
 
         $validated['password'] = Hash::make($validated['password']);

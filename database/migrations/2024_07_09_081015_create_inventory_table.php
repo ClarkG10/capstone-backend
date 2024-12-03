@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('blood_type');
             $table->string('rh_factor');
             $table->string('component');
-            $table->string('avail_blood_units');
+            $table->integer('avail_blood_units');
             $table->timestamps();
         });
 

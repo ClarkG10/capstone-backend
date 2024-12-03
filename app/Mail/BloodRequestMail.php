@@ -26,7 +26,6 @@ class BloodRequestMail extends Mailable
         $this->receiverName = $receiverName;
     }
 
-
     /**
      * Get the message envelope.
      */

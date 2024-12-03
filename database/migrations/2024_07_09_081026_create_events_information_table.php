@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('time_start');
             $table->string('time_end');
             $table->text('description');
-            $table->string('gender');
-            $table->string('weight');
             $table->integer('min_age');
             $table->integer('max_age');
             $table->string('contact_info');

@@ -39,6 +39,13 @@ class ReserveBloodController extends Controller
         return ReserveBlood::where('user_id', $userId)->get();
     }
 
+    public function reserveIndex()
+    {
+        $reserveblood = ReserveBlood::all();
+
+        return $reserveblood;
+    }
+
     /**
      * Store a newly created resource in storage.
      */

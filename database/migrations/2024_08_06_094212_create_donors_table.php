@@ -26,7 +26,7 @@ return new class extends Migration
             $table->text('medical_history')->nullable();
             $table->text('current_medications')->nullable();
             $table->text('allergies')->nullable();
-            $table->text('previous_donation')->nullable();
+            $table->date('previous_donation')->nullable();
             $table->string('emergency_name')->nullable();
             $table->string('emergency_relationship')->nullable();
             $table->integer('emergency_phonenumber')->nullable();

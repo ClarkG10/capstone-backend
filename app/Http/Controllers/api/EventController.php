@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
@@ -126,8 +126,6 @@ class EventController extends Controller
         $event->time_start =  $validated['time_start'];
         $event->time_end =  $validated['time_end'];
         $event->description =  $validated['description'];
-        $event->gender =  $validated['gender'];
-        $event->weight =  $validated['weight'];
         $event->min_age =  $validated['min_age'];
         $event->max_age =  $validated['max_age'];
         $event->contact_info =  $validated['contact_info'];

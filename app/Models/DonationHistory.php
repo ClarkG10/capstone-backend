@@ -26,7 +26,7 @@ class DonationHistory extends Model
      *
      * @var array
      */
-    protected $fillable = ['units', 'component', 'donation_date', 'donor_id'];
+    protected $fillable = ['units', 'component', 'donation_date', 'laboratory_attachment', 'donor_id'];
 
     /**
      * The attributes that aren't mass assignable.

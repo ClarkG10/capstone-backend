@@ -26,6 +26,7 @@ class DonationHistoryRequest extends FormRequest
                 'units' => 'required|integer',
                 'component' => 'required|string',
                 'donation_date' => 'required|date',
+                'laboratory_attachment' => 'required|file|mimes:jpeg,png,pdf|max:5048',
                 'donor_id' => 'required|integer',
             ];
         }

@@ -12,9 +12,17 @@ class StockOutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return StockOut::all();
+        if (!$request->user()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId = $request->user()->id ?? $request->user()->user_id;
+
+        $stockOut = StockOut::where('user_id', $userId)->get();
+
+        return response()->json($stockOut);
     }
 
     /**
